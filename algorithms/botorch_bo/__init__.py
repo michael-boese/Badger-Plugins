@@ -31,7 +31,7 @@ def optimize(evaluate, params):
     train_Y = torch.as_tensor(train_Y)
 
     for i in range(num_iter - num_init):
-        x_new, _ = get_BO_point(train_X, train_Y, bounds, beta=beta)
+        x_new, _ = get_BO_point(train_X.type(torch.DoubleTensor), train_Y, bounds, beta=beta)
 
         # to machine x_new
         y_new, _, _, _ = evaluate(x_new.numpy())
