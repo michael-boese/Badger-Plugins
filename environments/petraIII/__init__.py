@@ -49,7 +49,8 @@ class Environment(environment.Environment):
 
     @staticmethod
     def list_obses():
-        return ['emittance']
+        return ['PETRA/DiagBeamData/Direkt/VEmittance',
+                "PETRA/IfmDiagBeamData/Vertical/VEmittance"]
 
     @staticmethod
     def get_default_params():
@@ -68,8 +69,11 @@ class Environment(environment.Environment):
     def _get_obs(self, obs):
         time.sleep(self.params.get('waiting_time', 0))
 
-        if obs == "emittance":
-            return 1.0
+        if obs == "PETRA/DiagBeamData/Direkt/VEmittance":
+            tine_channel, prop = self.channel_to_tine_params[obs]
+            return self.interface.get_value(tine_channel, prop)
+        elif obs == "PETRA/IfmDiagBeamData/Vertical/VEmittance":
+            tine_channel, prop = self.channel_to_tine_params[obs]
+            return self.interface.get_value(tine_channel, prop)
 
-        # TODO: add if else with kets form list_obses()
         raise NotImplementedError(f"obs {obs} is not implemented.")
